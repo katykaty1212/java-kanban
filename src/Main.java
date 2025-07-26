@@ -1,3 +1,7 @@
+import manager.TaskManager;
+import task.*;
+
+
 public class Main {
         public static void main(String[] args) {
             TaskManager manager = new TaskManager();
@@ -21,13 +25,25 @@ public class Main {
             System.out.println("\nВсе задачи");
             manager.printAllTask();
 
-
             System.out.println("\nЭпик с подзадачами");
             manager.printAllEpicWithSubtask();
 
+            System.out.println("\nЭпик без подзадач");
+            manager.printAllEpic();
+
+            System.out.println("\nВсе подзадачи");
+            manager.printAllSubtask();
+
+            System.out.println("\nЭпик по ID");
+            manager.printEpicById(epicId1);
+
+            System.out.println("\nПодзадача по ID");
+            manager.printSubtaskById(subtaskId1);
+            manager.printSubtaskById(subtaskId2);
+
             Task updatedTask = new Task("Новая задача", "Новое описание");
             updatedTask.setId(taskId1);
-            manager.updateTask(updatedTask);
+            manager.updateTask(updatedTask, Status.NEW);
 
             Epic updatedEpic = new Epic("Новый эпик", "Новое описание");
             updatedEpic.setId(epicId1);
@@ -35,7 +51,7 @@ public class Main {
 
             Subtask updatedSubtask = new Subtask("Новая подзадача", "Новое описание", epicId1);
             updatedSubtask.setId(subtaskId1);
-            manager.updateSubtask(updatedSubtask);
+            manager.updateSubtask(updatedSubtask, Status.NEW);
 
             System.out.println("\nВсе задачи(new)");
             manager.printAllTask();
@@ -44,14 +60,11 @@ public class Main {
             System.out.println("\nЭпик с подзадачами(new)");
             manager.printAllEpicWithSubtask();
 
-            System.out.println("\nПосле удаления");
-            manager.deleteSubtask(subtaskId1);
-            manager.printAllEpicWithSubtask();
-
-            manager.updateTaskStatus(taskId1, Status.IN_PROGRESS);
-            subtask1.setStatus(Status.DONE);
-            subtask2.setStatus(Status.IN_PROGRESS);
+            manager.updateTask(task1, Status.IN_PROGRESS);
+            manager.updateSubtask(subtask1, Status.DONE);
+            manager.updateSubtask(subtask2, Status.IN_PROGRESS);
             manager.updateEpicStatus(epic1);
+
 
             System.out.println("\nВсе задачи(статус)");
             manager.printAllTask();
@@ -60,9 +73,11 @@ public class Main {
             System.out.println("\nЭпик с подзадачами(статус)");
             manager.printAllEpicWithSubtask();
 
+
             System.out.println("\nПосле удаления");
             manager.deleteSubtask(subtaskId1);
             manager.printAllEpicWithSubtask();
+
         }
     }
 
