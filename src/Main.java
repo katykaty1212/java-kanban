@@ -35,11 +35,14 @@ public class Main {
             manager.printAllSubtask();
 
             System.out.println("\nЭпик по ID");
-            manager.printEpicById(epicId1);
+            Epic epicResult = manager.getEpicById(epicId1);
+            System.out.println(epicResult.getTitle());
 
             System.out.println("\nПодзадача по ID");
-            manager.printSubtaskById(subtaskId1);
-            manager.printSubtaskById(subtaskId2);
+            Subtask subtaskResult1 = manager.getSubtaskById(subtaskId1);
+            System.out.println(subtaskResult1.getTitle());
+            Subtask subtaskResult2 = manager.getSubtaskById(subtaskId2);
+            System.out.println(subtaskResult2.getTitle());
 
             Task updatedTask = new Task("Новая задача", "Новое описание");
             updatedTask.setId(taskId1);
