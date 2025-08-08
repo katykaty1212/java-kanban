@@ -3,17 +3,19 @@ package manager;
 import task.Task;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 public class InMemoryHistoryManager implements HistoryManager {
-    private final ArrayList<Task> history = new ArrayList<>(10);
+    private final LinkedList<Task> history = new LinkedList<>();
+    private static final int MAX_HISTORY_SIZE = 10;
 
 
     @Override
     public void addToHistory(Task task) {
         if (task != null) {
-            if (history.size() >= 10) {
-                history.remove(0);
+            if (history.size() > MAX_HISTORY_SIZE) {
+                history.removeFirst();
             }
             history.add(task);
         }
