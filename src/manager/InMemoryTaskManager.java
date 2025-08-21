@@ -266,7 +266,7 @@ public class InMemoryTaskManager implements TaskManager {
 
         for (Subtask subtask : epicSubtasks) { // идем по подзадачам
             if (subtask != null) {
-                if (subtask.getStatus() != Status.DONE) {//если есть незавершенные
+                if (subtask.getStatus() != Status.DONE) { //если есть незавершенные
                     allDone = false;
                 }
 
