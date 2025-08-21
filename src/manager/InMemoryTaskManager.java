@@ -150,8 +150,7 @@ public class InMemoryTaskManager implements TaskManager {
                 System.out.println("Нет задач!");
             } else {
                 for (Subtask subtask : subtasks) {
-                    System.out.println("Подзадача: " + subtask.getTitle() + " "
-                            + "[Статус подзадачи: " + subtask.getStatus() + "]");
+                    System.out.println("Подзадача: " + subtask.getTitle() + " " + "[Статус подзадачи: " + subtask.getStatus() + "]");
                 }
             }
         }
@@ -241,7 +240,6 @@ public class InMemoryTaskManager implements TaskManager {
     @Override
     public void deleteAllSubtask() {
         subtasks.clear();
-
     }
 
     @Override
