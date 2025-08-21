@@ -8,6 +8,21 @@ public class InMemoryHistoryManager implements HistoryManager {
     private final HistoryList<Task> historyList = new HistoryList<>();
     private final Map<Integer, Node<Task>> historyMap = new HashMap<>();
 
+    public class HistoryList<T> {
+        public Node<T> head;
+        public Node<T> tail;
+
+        public int size() {
+            int count = 0;
+            Node<T> current = head;
+            while (current != null) {
+                count++;
+                current = current.next;
+            }
+            return count;
+        }
+
+    }
 
     @Override
     public void addToHistory(Task task) {

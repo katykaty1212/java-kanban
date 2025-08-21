@@ -49,7 +49,7 @@ public class InMemoryHistoryManagerTest {
         manager.getTask(task1.getId());
 
         assertEquals(3, manager.getHistory().size());
-        assertEquals(task1, manager.getHistory().get(manager.getHistory().size() - 1));
+        assertEquals(task1, manager.getHistory().getLast());
 
     }
 
