@@ -294,7 +294,7 @@ public class InMemoryTaskManager implements TaskManager {
     }
 
     @Override
-    public void removeFromHistory(int id){
+    public void removeFromHistory(int id) {
         historyManager.removeFromHistory(id);
     }
 }

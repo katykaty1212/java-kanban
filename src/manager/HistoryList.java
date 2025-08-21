@@ -1,10 +1,10 @@
 package manager;
 
-public class HistoryList <T> {
-    public  Node <T> head;
-    public  Node <T> tail;
+public class HistoryList<T> {
+    public Node<T> head;
+    public Node<T> tail;
 
-    public int size(){
+    public int size() {
         int count = 0;
         Node<T> current = head;
         while (current != null) {
@@ -16,15 +16,15 @@ public class HistoryList <T> {
 
 }
 
-    class Node <T> {
-        public T data;
-        public Node <T> next;
-        public Node <T> prev;
+class Node<T> {
+    public T data;
+    public Node<T> next;
+    public Node<T> prev;
 
-        public Node(T data) {
-            this.data = data;
-            this.next = null;
-            this.prev = null;
-        }
+    public Node(T data) {
+        this.data = data;
+        this.next = null;
+        this.prev = null;
     }
+}
 

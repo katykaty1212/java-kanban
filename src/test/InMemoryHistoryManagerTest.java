@@ -30,6 +30,7 @@ public class InMemoryHistoryManagerTest {
         assertEquals(2, manager.getHistory().size());
 
     }
+
     @Test
     public void deleteDuplicateHistory() {
 
@@ -47,13 +48,13 @@ public class InMemoryHistoryManagerTest {
 
         manager.getTask(task1.getId());
 
-        assertEquals(3,manager.getHistory().size());
-        assertEquals(task1, manager.getHistory().get(manager.getHistory().size()-1));
+        assertEquals(3, manager.getHistory().size());
+        assertEquals(task1, manager.getHistory().get(manager.getHistory().size() - 1));
 
     }
 
     @Test
-    public  void deleteTaskInHistory () {
+    public void deleteTaskInHistory() {
 
         Task task = new Task("Название", "Описание");
         manager.addTask(task);
