@@ -1,6 +1,5 @@
 package test;
 
-import manager.HistoryManager;
 import manager.Managers;
 import manager.TaskManager;
 import org.junit.Test;
