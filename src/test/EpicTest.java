@@ -45,7 +45,7 @@ public class EpicTest {
     }
 
     @Test
-    public void EpicNotAddInEpicAsSubtask() {
+    public void epicNotAddInEpicAsSubtask() {
         TaskManager manager = Managers.getDefault();
 
         Epic epic = new Epic("Тест название", "Тест описание");
