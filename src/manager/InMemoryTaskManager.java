@@ -150,8 +150,7 @@ public class InMemoryTaskManager implements TaskManager {
                 System.out.println("Нет задач!");
             } else {
                 for (Subtask subtask : subtasks) {
-                    System.out.println("Подзадача: " + subtask.getTitle() + " "
-                            + "[Статус подзадачи: " + subtask.getStatus() + "]");
+                    System.out.println("Подзадача: " + subtask.getTitle() + " " + "[Статус подзадачи: " + subtask.getStatus() + "]");
                 }
             }
         }
@@ -207,6 +206,7 @@ public class InMemoryTaskManager implements TaskManager {
     @Override
     public void deleteTask(int id) {
         tasks.remove(id);
+        removeFromHistory(id);
     }
 
     @Override
@@ -217,6 +217,7 @@ public class InMemoryTaskManager implements TaskManager {
                 subtasks.remove(subtaskId); // удаляем
             }
         }
+        removeFromHistory(id);
     }
 
     @Override
@@ -241,7 +242,6 @@ public class InMemoryTaskManager implements TaskManager {
     @Override
     public void deleteAllSubtask() {
         subtasks.clear();
-
     }
 
     @Override
@@ -268,7 +268,7 @@ public class InMemoryTaskManager implements TaskManager {
 
         for (Subtask subtask : epicSubtasks) { // идем по подзадачам
             if (subtask != null) {
-                if (subtask.getStatus() != Status.DONE) {//если есть незавершенные
+                if (subtask.getStatus() != Status.DONE) { //если есть незавершенные
                     allDone = false;
                 }
 
@@ -291,5 +291,10 @@ public class InMemoryTaskManager implements TaskManager {
     @Override
     public List<Task> getHistory() {
         return historyManager.getHistory();
+    }
+
+    @Override
+    public void removeFromHistory(int id) {
+        historyManager.removeFromHistory(id);
     }
 }

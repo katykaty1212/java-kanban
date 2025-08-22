@@ -74,4 +74,6 @@ public interface TaskManager {
 
     //история
     List<Task> getHistory();
+
+    void removeFromHistory(int id);
 }
