@@ -1,6 +1,7 @@
 package manager;
 
 import task.Task;
+
 import java.util.*;
 
 public class InMemoryHistoryManager implements HistoryManager {
@@ -14,10 +15,12 @@ public class InMemoryHistoryManager implements HistoryManager {
         public int size() {
             int count = 0;
             Node<T> current = head;
+
             while (current != null) {
                 count++;
                 current = current.next;
             }
+
             return count;
         }
 
@@ -26,16 +29,18 @@ public class InMemoryHistoryManager implements HistoryManager {
     @Override
     public void addToHistory(Task task) {
         if (task != null) {
+
             if (historyMap.containsKey(task.getId())) {
                 removeFromHistory(task.getId());//удалить узел
             }
+
             Node<Task> newNode = new Node<>(task);
             linkLast(newNode);
             historyMap.put(task.getId(), newNode);
         }
     }
 
-    public void linkLast(Node<Task> newNode) {
+    private void linkLast(Node<Task> newNode) {
         if (historyList.head == null) {
             historyList.head = newNode;
             historyList.tail = newNode;
@@ -43,7 +48,6 @@ public class InMemoryHistoryManager implements HistoryManager {
             newNode.prev = historyList.tail;
             historyList.tail.next = newNode;
             historyList.tail = newNode;
-
         }
     }
 
@@ -57,7 +61,7 @@ public class InMemoryHistoryManager implements HistoryManager {
         }
     }
 
-    public void removeNode(Node<Task> node) { //удаление и обновление связей узла
+    private void removeNode(Node<Task> node) { //удаление и обновление связей узла
         if (node != null) {
             if (node.prev != null) {
                 node.prev.next = node.next;
@@ -73,8 +77,7 @@ public class InMemoryHistoryManager implements HistoryManager {
         }
     }
 
-    @Override
-    public List<Task> getHistory() {
+    private List<Task> getTask() {
         List<Task> resultHistory = new ArrayList<>();
         Node<Task> current = historyList.head;
 
@@ -85,4 +88,8 @@ public class InMemoryHistoryManager implements HistoryManager {
         return resultHistory;
     }
 
+    @Override
+    public List<Task> getHistory() {
+        return getTask();
+    }
 }
