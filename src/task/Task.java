@@ -49,4 +49,9 @@ public class Task {
     public int hashCode() {
         return Objects.hash(id);
     }
+
+    @Override
+    public String toString() {
+        return String.format("%d,TASK,%s,%s,%s\n", id, title, status, description);
+    }
 }

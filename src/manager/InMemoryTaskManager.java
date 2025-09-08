@@ -297,4 +297,16 @@ public class InMemoryTaskManager implements TaskManager {
     public void removeFromHistory(int id) {
         historyManager.removeFromHistory(id);
     }
+
+    public HashMap<Integer, Task> getTasks() {
+        return tasks;
+    }
+
+    public HashMap<Integer, Subtask> getSubtasks() {
+        return subtasks;
+    }
+
+    public HashMap<Integer, Epic> getEpics() {
+        return epics;
+    }
 }
