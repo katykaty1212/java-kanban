@@ -72,6 +72,15 @@ public class InMemoryHistoryManagerTest {
         manager.removeFromHistory(task1.getId());
 
         assertEquals(2, manager.getHistory().size());
+        assertTrue(manager.getHistory().contains(task));
+        assertTrue(manager.getHistory().contains(task2));
 
+        manager.getTask(task1.getId());
+
+        manager.removeFromHistory(task.getId());
+
+        assertEquals(2, manager.getHistory().size());
+        assertTrue(manager.getHistory().contains(task1));
+        assertTrue(manager.getHistory().contains(task2));
     }
 }

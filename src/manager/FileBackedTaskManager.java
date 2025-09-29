@@ -8,6 +8,8 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
+import java.time.Duration;
+import java.time.LocalDateTime;
 
 public class FileBackedTaskManager extends InMemoryTaskManager {
     private final File file;
@@ -22,7 +24,7 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
         }
 
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(file))) {
-            writer.write("id,type,name,status,description,epic");
+            writer.write("id,type,name,status,description,epic,duration,startTime");
             writer.newLine();
 
             for (Task task : getAllTasks()) {
@@ -42,7 +44,7 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
         }
     }
 
-    private Task fromString(String value) {
+    public Task fromString(String value) {
 
         if (value == null) {
             return null;
@@ -56,15 +58,41 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
             String name = parts[2];
             Status status = Status.valueOf(parts[3]);
             String description = parts[4];
+            Duration duration = null;
+            LocalDateTime startTime = null;
             int epicID = 0;
 
-            if (parts.length > 5) {
+            if (parts.length > 7) {
                 epicID = Integer.parseInt(parts[5]);
+
+                if (!parts[6].equals("null")) {
+                    duration = Duration.parse(parts[6]);
+                }
+                if (!parts[7].equals("null")) {
+                    startTime = LocalDateTime.parse(parts[7]);
+                }
+
+            } else {
+
+                if (!parts[5].equals("null")) {
+                    duration = Duration.parse(parts[5]);
+                }
+
+                if (!parts[6].equals("null")) {
+                    startTime = LocalDateTime.parse(parts[6]);
+                }
             }
 
             switch (type) {
                 case TASK:
-                    Task task = new Task(name, description);
+                    Task task;
+
+                    if (startTime != null && duration != null) {
+                        task = new Task(name, description, duration, startTime);
+                    } else {
+                        task = new Task(name, description);
+                    }
+
                     task.setId(id);
                     task.setStatus(status);
                     return task;
@@ -74,7 +102,14 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
                     epic.setStatus(status);
                     return epic;
                 case SUBTASK:
-                    Subtask subtask = new Subtask(name, description, epicID);
+                    Subtask subtask;
+
+                    if (startTime != null && duration != null) {
+                        subtask = new Subtask(name, description, epicID, duration, startTime);
+                    } else {
+                        subtask = new Subtask(name, description, epicID);
+                    }
+
                     subtask.setId(id);
                     subtask.setStatus(status);
                     return subtask;
@@ -210,6 +245,12 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
     @Override
     public void updateEpicStatus(Epic epic) {
         super.updateEpicStatus(epic);
+        save();
+    }
+
+    @Override
+    public void updateEpicTime(Epic epic) {
+        super.updateEpicTime(epic);
         save();
     }
 }
