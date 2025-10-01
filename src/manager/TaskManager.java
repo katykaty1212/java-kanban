@@ -74,4 +74,10 @@ public interface TaskManager {
 
     //история
     List<Task> getHistory();
+
+    void removeFromHistory(int id);
+
+    List<Task> getPrioritizedTasks();
+
+    boolean isTaskOverlay(Task task1, Task task2);
 }

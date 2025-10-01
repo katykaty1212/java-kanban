@@ -1,23 +1,25 @@
-package test;
-
-import manager.InMemoryTaskManager;
-import manager.Managers;
 import manager.TaskManager;
 import org.junit.Test;
-import org.junit.jupiter.api.BeforeEach;
 import task.Epic;
 import task.Subtask;
 import task.Task;
 
-import static org.junit.Assert.*;
+import java.io.IOException;
+import java.time.Duration;
+import java.time.LocalDateTime;
 
-public class InMemoryTaskManagerTest {
-    TaskManager manager;
+import static org.junit.Assert.*;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+
+abstract class TaskManagerTest<T extends TaskManager> {
+
+    abstract T createmanager();
 
 
     @Test
-    public void tasksAddInManagerAndFindID() {
-        manager = Managers.getDefault();
+    public void addTasksInFileManagerAndManager() {
+        T manager = createmanager();
 
         Task task1 = new Task("Помыть машину", "Заехать на мойку");
         int taskId1 = manager.addTask(task1);
@@ -37,7 +39,7 @@ public class InMemoryTaskManagerTest {
 
     @Test
     public void generateDifferentTaskType() {
-        manager = Managers.getDefault();
+        T manager = createmanager();
 
         Task task1 = new Task("Помыть машину", "Заехать на мойку");
         int taskId1 = manager.addTask(task1);
@@ -59,14 +61,14 @@ public class InMemoryTaskManagerTest {
 
     @Test
     public void managersReturnTaskManagerNotNull() {
-        manager = Managers.getDefault();
-        //создание менеджера
-        assertNotNull("не должен быть Null", manager);
+        T manager = createmanager();
+        assertNotNull("Не должен быть Null", manager);
     }
 
     @Test
-    public void notConflictIDGeneratedIDAndGivenID() {
-        manager = Managers.getDefault();
+    public void notConflictIDGeneratedIDAndGivenID() throws IOException {
+        T manager = createmanager();
+
         Task task = new Task("Помыть машину", "Заехать на мойку");
         task.setId(0);
         manager.addTask(task);
@@ -80,7 +82,7 @@ public class InMemoryTaskManagerTest {
 
     @Test
     public void taskNotChangeAfterAddManager() {
-        manager = Managers.getDefault();
+        T manager = createmanager();
 
         Task task = new Task("Помыть машину", "Заехать на мойку");
         task.setId(10);
@@ -92,5 +94,30 @@ public class InMemoryTaskManagerTest {
         assertEquals(task.getStatus(), manager.getTask(task.getId()).getStatus());
         assertEquals(task.getId(), manager.getTask(task.getId()).getId());
 
+    }
+
+    @Test
+    public void taskOverlayInTime() {
+        T manager = createmanager();
+
+        Task task1 = new Task("Задача 1", " ",
+                Duration.ofMinutes(90), LocalDateTime.of(2024, 6, 3, 9, 0));
+
+        Task task2 = new Task("Задача 2", " ",
+                Duration.ofHours(2), LocalDateTime.of(2024, 6, 3, 11, 0));
+
+
+        Task task3 = new Task("Задача 3", " ",
+                Duration.ofMinutes(45), LocalDateTime.of(2024, 6, 3, 11, 30));
+
+
+        assertFalse(manager.isTaskOverlay(task1, task2));
+        assertTrue(manager.isTaskOverlay(task2, task3));
+
+        int task1Id = manager.addTask(task1);
+        int task2Id = manager.addTask(task2);
+        int task3Id = manager.addTask(task3);
+
+        assertNull(task3.getStartTime());
     }
 }
