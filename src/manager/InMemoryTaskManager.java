@@ -338,24 +338,34 @@ public class InMemoryTaskManager implements TaskManager {
             return;
         }
 
+        epic.setDuration(getEpicDuration(epic));
+        epic.setStartTime(getEpicStartTime(epic));
+        epic.setEndTime(getEpicEndTime(epic));
+    }
+
+    public Duration getEpicDuration(Epic epic) {
         Duration timeAllSubtask = Duration.ZERO;
 
-        for (Subtask subtask : subtasks) {
+        for (Subtask subtask : getAllEpicsSubtasks(epic.getId())) {
             timeAllSubtask = subtask.getDuration().plus(timeAllSubtask);
         }
-        epic.setDuration(timeAllSubtask);
+        return timeAllSubtask;
+    }
 
-        Optional<LocalDateTime> minStartTime = subtasks.stream()
+    public LocalDateTime getEpicStartTime(Epic epic) {
+        Optional<LocalDateTime> minStartTime = getAllEpicsSubtasks(epic.getId()).stream()
                 .map(Subtask::getStartTime)
                 .min(LocalDateTime::compareTo);
 
-        epic.setStartTime(minStartTime.orElse(null));
+        return minStartTime.orElse(null);
+    }
 
-        Optional<LocalDateTime> maxStartTime = subtasks.stream()
-                .map(Subtask::getStartTime)
+    public LocalDateTime getEpicEndTime(Epic epic) {
+        Optional<LocalDateTime> maxEndTime = getAllEpicsSubtasks(epic.getId()).stream()
+                .map(Subtask::getEndTime)
                 .max(LocalDateTime::compareTo);
 
-        epic.setEndTime(maxStartTime.orElse(null));
+        return maxEndTime.orElse(null);
     }
 
     public List<Task> getPrioritizedTasks() {
@@ -365,8 +375,8 @@ public class InMemoryTaskManager implements TaskManager {
     @Override
     public boolean isTaskOverlay(Task task1, Task task2) {
 
-        boolean noOverlay = task1.getEndTime().isBefore(task2.getStartTime()) ||
-                task2.getEndTime().isBefore(task1.getStartTime());
+        boolean noOverlay = task1.getStartTime().plus(task1.getDuration()).isBefore(task2.getStartTime()) ||
+                task2.getStartTime().plus(task2.getDuration()).isBefore(task1.getStartTime());
 
         return !noOverlay;
     }

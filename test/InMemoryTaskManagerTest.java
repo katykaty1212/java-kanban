@@ -5,7 +5,7 @@ import manager.TaskManager;
 public class InMemoryTaskManagerTest extends TaskManagerTest<InMemoryTaskManager> {
 
     @Override
-    InMemoryTaskManager createmanager() {
+    protected InMemoryTaskManager createmanager() {
         return new InMemoryTaskManager();
     }
 }

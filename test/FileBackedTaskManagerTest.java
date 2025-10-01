@@ -12,7 +12,7 @@ import static org.junit.Assert.*;
 public class FileBackedTaskManagerTest extends TaskManagerTest<FileBackedTaskManager> {
 
     @Override
-    FileBackedTaskManager createmanager() {
+    protected FileBackedTaskManager createmanager() {
         try {
             File tempFile = File.createTempFile("file", ".txt");
             tempFile.deleteOnExit();

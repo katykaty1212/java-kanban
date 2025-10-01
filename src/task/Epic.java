@@ -22,9 +22,8 @@ public class Epic extends Task {
                 getId(), getTitle(), getStatus(), getDescription(), getDuration(), getStartTime());
     }
 
-    @Override
     public LocalDateTime getEndTime() {
-        return this.endTime;
+        return endTime;
     }
 
     public void setEndTime(LocalDateTime endTime) {

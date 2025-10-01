@@ -1,5 +1,3 @@
-package test;
-
 import manager.Managers;
 import manager.TaskManager;
 import org.junit.Test;
@@ -10,7 +8,7 @@ import static org.junit.Assert.*;
 
 public class InMemoryHistoryManagerTest {
 
-    TaskManager manager = Managers.getDefault();
+    protected TaskManager manager = Managers.getDefault();
 
     @Test
     public void addHistoryAndSaveUpdateTask() {

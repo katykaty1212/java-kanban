@@ -20,14 +20,13 @@ public class Subtask extends Task {
         return epicId;
     }
 
-    @Override
     public LocalDateTime getEndTime() {
-        return super.getEndTime();
+        return getStartTime().plus(getDuration());
     }
 
     @Override
     public String toString() {
         return String.format("%d,SUBTASK,%s,%s,%s,%d,%s,%s\n",
-                getId(), getTitle(), getStatus(),getDescription(), epicId, getDuration(), getStartTime());
+                getId(), getTitle(), getStatus(), getDescription(), epicId, getDuration(), getStartTime());
     }
 }

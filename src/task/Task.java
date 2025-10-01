@@ -26,10 +26,6 @@ public class Task {
         this.status = Status.NEW;
     }
 
-    public LocalDateTime getEndTime() {
-        return startTime.plusMinutes(duration.toMinutes());
-    }
-
     public String getTitle() {
         return title;
     }
