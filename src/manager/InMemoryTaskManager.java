@@ -29,10 +29,9 @@ public class InMemoryTaskManager implements TaskManager {
         task.setId(nextId++);
         tasks.put(task.getId(), task);
 
-        if (task.getStartTime() != null || task.getDuration() != null) {
+        if (task.getStartTime() != null && task.getDuration() != null) {
             prioritizedTasks.add(task);
         }
-
 
         return task.getId();
     }
@@ -229,13 +228,14 @@ public class InMemoryTaskManager implements TaskManager {
     //удаление задач по ID
     @Override
     public void deleteTask(int id) {
+        prioritizedTasks.remove(tasks.get(id));
         tasks.remove(id);
         removeFromHistory(id);
-        prioritizedTasks.remove(tasks.get(id));
     }
 
     @Override
     public void deleteEpic(int id) {
+        prioritizedTasks.remove(epics.get(id));
         Epic epic = epics.remove(id); //удаляем эпик
         if (epic != null) { // проверяем на ноль
             for (int subtaskId : epic.getSubtaskIds()) {  //перебираем его подзадачи
@@ -243,13 +243,12 @@ public class InMemoryTaskManager implements TaskManager {
             }
         }
         removeFromHistory(id);
-        prioritizedTasks.remove(epics.get(id));
     }
 
     @Override
     public void deleteSubtask(int id) {
-        Subtask subtask = subtasks.remove(id);
         prioritizedTasks.remove(subtasks.get(id));
+        Subtask subtask = subtasks.remove(id);
 
         if (subtask != null) {
             Epic epic = epics.get(subtask.getEpicId());
@@ -369,7 +368,7 @@ public class InMemoryTaskManager implements TaskManager {
     }
 
     public List<Task> getPrioritizedTasks() {
-        return new ArrayList<Task>(prioritizedTasks);
+        return new ArrayList<>(prioritizedTasks);
     }
 
     @Override
@@ -381,6 +380,7 @@ public class InMemoryTaskManager implements TaskManager {
         return !noOverlay;
     }
 
+    @Override
     public boolean isTaskOverlayInPrioritizedList(Task newTask) {
         return getPrioritizedTasks().stream()
                 .filter(task -> task.getId() != newTask.getId())

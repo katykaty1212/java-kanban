@@ -80,4 +80,6 @@ public interface TaskManager {
     List<Task> getPrioritizedTasks();
 
     boolean isTaskOverlay(Task task1, Task task2);
+
+    boolean isTaskOverlayInPrioritizedList(Task newTask);
 }
