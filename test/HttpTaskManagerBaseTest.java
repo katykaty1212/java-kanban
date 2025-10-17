@@ -13,9 +13,9 @@ import java.net.http.HttpResponse;
 
 public abstract class HttpTaskManagerBaseTest {
 
-    HttpTaskServer taskServer;
-    TaskManager manager;
-    Gson gson = GsonCreate.createGson();
+    protected HttpTaskServer taskServer;
+    protected TaskManager manager;
+    protected Gson gson = GsonCreate.createGson();
 
     @BeforeEach
     public void setUp() throws IOException {
@@ -45,5 +45,4 @@ public abstract class HttpTaskManagerBaseTest {
 
         return client.send(request, HttpResponse.BodyHandlers.ofString());
     }
-
 }
